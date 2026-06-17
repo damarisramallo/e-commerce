@@ -1,11 +1,17 @@
 @php
     $links = [
         [
-            'icon' => 'fa-solid fa-gauge',
             'name' => 'Dashboard',
+            'icon' => 'fa-solid fa-gauge',
             'route' => route('admin.dashboard'),
             'active' => request()->routeIs('admin.dashboard')
-        ]
+        ],
+        [
+            'name' => 'Familias',
+            'icon' => 'fa-solid fa-boxes-stacked',
+            'route' => route('admin.families.index'),
+            'active' => request()->routeIs('admin.families.*')
+        ],
     ];
 @endphp
 

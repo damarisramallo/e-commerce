@@ -49,9 +49,18 @@
 
         <div class="mt-14">
 
-            @include('layouts.partials.admin.breadcrumbs')
+            <div class="flex justify-between items-center">
+                @include('layouts.partials.admin.breadcrumbs')
+
+                @isset($action)
+                    <div>
+                        {{ $action }}
+                    </div>
+                @endisset
                 
-            <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            </div>
+                
+            <div class="p-4 rounded-lg dark:border-gray-700">
                 {{ $slot }}
             </div>
         </div>    
@@ -59,6 +68,8 @@
 
 
     @livewireScripts
+
+    @stack('js')
 </body>
 
 </html>

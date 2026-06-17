@@ -2,10 +2,7 @@
     [
         'name' => 'Dashboard',
         'route' => route('admin.dashboard'),
-    ],
-    [
-        'name' => 'Productos',
-    ],
+    ]
 ]">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-slate-700 rounded-lg shadow-xl p-6" >
