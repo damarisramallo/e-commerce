@@ -34,7 +34,8 @@ class Product extends Model
     public function options()
     {
         return $this->belongsToMany(Option::class)
-            ->withPivot('value') // Agrega el campo 'value' a la tabla pivote
+            ->using(OptionProduct::class)
+            ->withPivot('features') // Agrega el campo 'value' a la tabla pivote
             ->withTimestamps(); // Agrega campos de timestamps a la tabla pivote
     }
 }
