@@ -3,7 +3,7 @@
         <header class="border-b border-gray-700 px-6 py-4">
                 <div class="flex justify-between">
                     <h1 class="text-lg font-semibold text-gray-300">
-                        Variantes
+                        Opciones
                     </h1>
 
                     <x-button wire:click="$set('openModal', true)">
@@ -78,6 +78,43 @@
             @endif
         </div>
     </section>
+
+
+    @if ($product->variants->count())
+        <section class="rounded-lg border border-gray-600 bg-inherit shadow-lg mt-12">
+            <header class="border-b border-gray-700 px-6 py-4">
+                    <div class="flex justify-between">
+                        <h1 class="text-lg font-semibold text-gray-300">
+                            Variantes
+                        </h1>
+
+                    </div>
+            </header>
+            
+            <div class="p-6">
+                <ul class="divide-y divide-gray-600 -my-4">
+                    @foreach ($product->variants as $item)
+                        <li class="py-4 flex items-center">
+                            
+                            <img src="{{$item->image}}" class="w-12 h-12 object-cover object-center">
+                            <p class="divide-x divide-gray-600">
+                                @foreach ($item->features as $feature)
+                                    <span class="px-3 text-gray-400">
+                                        {{$feature->description}}
+                                    </span>
+                                @endforeach
+                            </p>
+
+                            <a href="{{route('admin.products.variants', [$product, $item])}}" class="ml-auto btn btn-blue">
+                                Editar
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+
+            </div>
+        </section>
+    @endif
 
     <x-dialog-modal wire:model="openModal">
         <x-slot name='title'>

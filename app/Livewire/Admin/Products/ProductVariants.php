@@ -136,6 +136,8 @@ class ProductVariants extends Component
 
     
         }
+
+        $this->dispatch('variant-generate');
     }
 
     public function  generarCombinaciones($arrays, $indice = 0, $combinacion = [])
