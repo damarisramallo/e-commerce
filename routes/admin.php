@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\FamilyController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\OptionController;
+use App\Http\Controllers\Admin\CoverController;
+
 
 Route::get('/', function () {
     return view('admin.dashboard');
@@ -25,3 +27,5 @@ Route::get('products/{product}/variants{variant}', [ProductController::class, 'v
 Route::put('products/{product}/variants{variant}', [ProductController::class, 'variantsUpdate'])
     ->name('products.variantsUpdate')
     ->scopeBindings();
+
+Route::resource('covers', CoverController::class);

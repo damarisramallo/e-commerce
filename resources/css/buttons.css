@@ -13,4 +13,9 @@
 .btn-red {
   @apply bg-red-500 text-white hover:bg-red-700;
 }
+
+.btn-dark-green {
+  @apply bg-emerald-800 text-white hover:bg-emerald-950;
+}
+
   
