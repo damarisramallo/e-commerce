@@ -20,7 +20,7 @@
                 </h1>
 
                 <div class="flex-1 hidden md:block">
-                    <input class="border-gray-300 bg-gray-100 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full" placeholder="Buscar por producto o categoría..."/>
+                    <input oninput="search(this.value)" class="border-gray-300 bg-gray-100 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full" placeholder="Buscar por producto o categoría..."/>
                     
                 </div>
 
@@ -84,7 +84,7 @@
             </div>
 
             <div class="mt-4 md:hidden">
-                <input class="border-gray-300 bg-gray-100 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full" placeholder="Buscar por producto o categoría..."/>
+                <input oninput="search(this.value)" class="border-gray-300 bg-gray-100 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full" placeholder="Buscar por producto o categoría..."/>
             </div>
         </x-container>
     </header>
@@ -138,7 +138,7 @@
                     <ul class="grid grid-cols-1 xl:grid-cols-3 gap-8">
                         @foreach ($this->categories as $category)
                             <li>
-                                <a href="" class="text-emerald-700 font-semibold text-lg">
+                                <a href="{{route('categories.show', $category)}}" class="text-emerald-700 font-semibold text-lg">
                                     {{ $category->name }}
                                 </a>
 
@@ -159,4 +159,14 @@
             </div>
         </div>
     </div>
+
+    @push('js')
+        <script>
+            function search(value){
+                Livewire.dispatch('search', {
+                    search: value
+                })
+            }
+        </script>
+    @endpush
 </div>

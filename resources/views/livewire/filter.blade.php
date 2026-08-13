@@ -19,11 +19,12 @@
                             <ul class="mt-2 space-y-2" x-show="open">
                                 @foreach($option['features'] as $feature)
                                     <li>
-                                        <label 
-                                            value="{{ $feature['id'] }}"
-                                            wire:model.live="selected_features"
-                                            class="inline-flex items-center">
-                                            <input type="checkbox" class="rounded border-gray-400 text-indigo-600 shadow-sm focus:ring-indigo-500 mr-2">
+                                        <label class="inline-flex items-center">
+                                            <input 
+                                                value="{{ $feature['id'] }}"
+                                                wire:model.live="selected_features"
+                                                type="checkbox" 
+                                                class="rounded border-gray-400 text-indigo-600 shadow-sm focus:ring-indigo-500 mr-2">
                                             {{ $feature['description'] }}
                                         </label>
                                     </li>
@@ -43,7 +44,9 @@
                     Ordenar por:
                 </span>
 
-                <select class="'border-gray-300  focus:border-indigo-500 focus:ring-indigo-500  rounded-md shadow-sm'">
+                <select 
+                    wire:model.live="orderBy"
+                    class="'border-gray-300  focus:border-indigo-500 focus:ring-indigo-500  rounded-md shadow-sm'">
                     <option value="1">
                         Relevancia
                     </option>
@@ -81,7 +84,6 @@
                 {{ $products->links() }}
             </div>
 
-            @dump($selected_features)
         </div>
     </x-container>
 </div>
