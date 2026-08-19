@@ -7,17 +7,13 @@
                 <button class="text-3xl" x-on:click="open = true">
                     <i class="fas fa-bars text-white"></i>
                 </button>
-                <h1 class="text-white">
+                <div>
                     <a href="/" class="inline-flex flex-col items-end">
                         <span class="text-xl md:text-2xl leading-3 md:leading-6 font-semibold">
-                            Ecommerce
-                        </span>
-
-                        <span class="text-xs">
-                            Tienda online
+                            <img src="{{asset('/public/logo/logo.png')}}" alt="">
                         </span>
                     </a>    
-                </h1>
+                </div>
 
                 <div class="flex-1 hidden md:block">
                     <input oninput="search(this.value)" class="border-gray-300 bg-gray-100 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full" placeholder="Buscar por producto o categoría..."/>
@@ -145,7 +141,7 @@
                                 <ul class="mt-4 space-y-2">
                                     @foreach ($category->subcategories as $subcategory)
                                         <li>
-                                            <a href="" class="text-sm text-gray-700 hover:text-emerald-700">
+                                            <a href="{{route('subcategories.show', $subcategory)}}" class="text-sm text-gray-700 hover:text-emerald-700">
                                                 {{ $subcategory->name }}
                                             </a>
                                         </li>
