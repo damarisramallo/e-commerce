@@ -71,7 +71,7 @@
                       <h2 class="text-lg font-bold text-gray-800 line-clamp-2 min-h-[56px] mb-2">{{$product->name}}</h2>
                       <p class="text-gray-600 mb-4">${{number_format($product->price, 2)}}</p>
 
-                      <a href="" class="btn btn-dark-green block w-full text-center">Ver más</a>
+                      <a href="{{route('products.show', $product)}}" class="btn btn-dark-green block w-full text-center">Ver más</a>
 
                     </div>
 
