@@ -8,7 +8,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubcategoryController;
-
+use CodersFree\Shoppingcart\Facades\Cart;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome.index');
 
@@ -26,6 +26,12 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+Route::get('prueba', function(){
+    Cart::instance('shopping');
+    return Cart::content();
+    
 });
 
 // Route::get('prueba', function () {
