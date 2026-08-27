@@ -51,6 +51,10 @@ class AddToCartVariants extends Component
             ]
         ]);
 
+        if (auth()->check()){
+            Cart::store(auth()->id());
+        }
+
         $this->dispatch('swal', [
             'icon' => 'success',
             'title' => '¡Muy bien!',
