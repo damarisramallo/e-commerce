@@ -1,12 +1,12 @@
 <div>
-    <div class="grid grid-cols-2 lg:grid-cols-7 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-7 gap-6">
         <div class="lg:col-span-5">
             <div class="flex justify-between mb-2">
                 <h1 class="text-lg">
                     Carrito de compras ({{Cart::count()}} productos)
                 </h1>
 
-                <button class="font-semibold text-gray-700 hover:text-blue-400 underline hover:no-underline"
+                <button class="font-semibold text-gray-700 hover:text-emerald-400 underline hover:no-underline"
                     wire:click="destroy()">
                     Limpiar carrito
                 </button>

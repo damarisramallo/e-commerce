@@ -22,8 +22,12 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Damaris Ramallo',
+            'name' => 'Damaris',
+            'last_name' => 'Ramallo',
+            'document_type' => 1,
+            'document_number' => '45214879',
             'email' => 'damarisramallo@ejemplo.com',
+            'phone' => '1234567890',
             'password' => bcrypt('12345678'),
         ]);
 
@@ -32,6 +36,6 @@ class DatabaseSeeder extends Seeder
             OptionSeeder::class,
         ]);
 
-        Product::factory(150)->create();
+        Product::factory(1000)->create();
     }
 }
