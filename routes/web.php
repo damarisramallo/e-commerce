@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SubcategoryController;
 use CodersFree\Shoppingcart\Facades\Cart;
 
@@ -19,6 +20,7 @@ Route::get('subcategories/{subcategory}', [SubcategoryController::class, 'show']
 
 Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('shipping', [ShippingController::class, 'index'])->name('shipping.index');
 
 Route::middleware([
     'auth:sanctum',
