@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Livewire\Forms;
+namespace App\Livewire\Forms\Shipping;
 
+use App\Enums\TypeOfDocuments;
+use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
-use App\Enums\TypeOfDocuments;
-use App\Models\Address;
-use Illuminate\Validation\Rules\Enum;
- 
 
-
-class CreateAddressForm extends Form
+class EditAddressForm extends Form
 {
+    public $id;
     public $type = '';
     public $address = '';
     public $city = '';
@@ -60,36 +58,26 @@ class CreateAddressForm extends Form
         ];
     }
 
-    public function save()
+    public function edit($address)
     {
-        $this->validate();
+        // $this->id = $address['id'];
+        // $this->type = $address['type'];
+        // $this->address = $address['address'];
+        // $this->city = $address['city'];
+        // $this->state = $address['state'];
+        // $this->reference = $address['reference'];
+        // $this->receiver = $address['receiver'];
+        // $this->receiver_info = $address['receiver_info'];
+        // $this->is_default = $address['is_default'];
 
-        if(auth()->user()->addresses()->count() === 0) {
-            $this->is_default = false;
-        }
-
-        Address::create([
-            'user_id' => auth()->id(),
-            'type' => $this->type,
-            'address' => $this->address,
-            'city' => $this->city,
-            'state' => $this->state,
-            'reference' => $this->reference,
-            'receiver' => $this->receiver,
-            'receiver_info' => $this->receiver_info,
-            'is_default' => $this->is_default,
-        ]);
-
-        $this->reset();
-
-        $this->receiver_info = [
-            'name' => auth()->user()->name,
-            'last_name' => auth()->user()->last_name,
-            'document_type' => auth()->user()->document,
-            'document_number' => auth()->user()->document_number,
-            'phone' => auth()->user()->phone,
-        ];
-
-
+        $this->id = $address->id;
+        $this->type = $address->type;
+        $this->address = $address->address;
+        $this->city = $address->city;
+        $this->state = $address->state;
+        $this->reference = $address->reference;
+        $this->receiver = $address->receiver;
+        $this->receiver_info = $address->receiver_info;
+        $this->is_default = $address->is_default;
     }
 }

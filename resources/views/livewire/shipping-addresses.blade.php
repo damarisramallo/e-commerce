@@ -157,18 +157,65 @@
                     </div>
                 </div>
             @else
-                @if ($addresses->count())
-                    
-                @else
-                    <p class="text-center text-gray-500 text-sm">
-                        No se ha encontrado direcciones
+                @if ($editAddress->id)
+                    <p>
+                        Editando dirección de envío
                     </p>
-                @endif
+                @else
+                    @if ($addresses->count())
+                        <ul class="grid grid-cols-3 gap-4">
+                            @foreach ($addresses as $address)
+                                <li class="{{ $address->is_default ? 'bg-green-200' : 'bg-gray-100' }} rounded-lg shadow">
+                                    <div class="p-4 flex items-center">
+                                        <div>
+                                            <i class="fa-solid fa-location-dot text-gray-500"></i>
+                                        </div>
+                                        <div class="flex-1 mx-4 text-xs">
+                                            <p class="font-semibold text-gray-800">
+                                                {{ $address->type == 1 ? 'Domicilio' : 'Domicilio de trabajo' }}
+                                            </p>
 
-                <button class="btn btn-outline-gray w-full flex items-center justify-center mt-4"
-                    wire:click="$set('newAddress', true)">
-                    Agregar <i class="fa-solid fa-plus ml-2"></i> 
-                </button>
+                                            <p class="text-gray-500">
+                                                {{ $address->city }}
+                                            </p>
+
+                                            <p class="text-gray-500">
+                                                {{ $address->address }}
+                                            </p>
+
+                                            <p class="font-semibold text-gray-700">
+                                                {{ $address->receiver_info['name'] }}
+                                                {{ $address->receiver_info['last_name'] }}
+                                            </p>
+                                        </div>
+
+                                        <div class="text-xs text-gray-500 flex flex-col">
+                                            <button wire:click="setDefaultAddress({{ $address->id }})">
+                                                <i class="{{ $address->is_default ? 'fa-solid fa-star' : 'fa-regular fa-star' }}"></i>
+                                            </button>
+                                            <button wire:click="edit({{ $address->id }})">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </button>
+                                            <button>
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-center text-gray-500 text-sm">
+                            No se ha encontrado direcciones
+                        </p>
+                    @endif
+
+                    <button class="btn btn-outline-gray w-full flex items-center justify-center mt-4"
+                        wire:click="$set('newAddress', true)">
+                        Agregar <i class="fa-solid fa-plus ml-2"></i> 
+                    </button>
+                @endif
 
             @endif
         </div>
