@@ -158,14 +158,160 @@
                 </div>
             @else
                 @if ($editAddress->id)
-                    <p>
-                        Editando dirección de envío
-                    </p>
+                    <x-validation-errors class="mb-4" />
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="col-span-1">
+                            <x-select-white wire:model="editAddress.type">
+                                <option value="1">
+                                    Tipo de dirección
+                                </option>
+                            
+                                <option value="2">
+                                    Domicilio
+                                </option>
+                            
+                                <option value="3">
+                                    Domicilio de trabajo
+                                </option>
+                            </x-select-white>
+                        </div>
+                    
+                        <div class="col-span-3 ml-2">
+                            <x-input-white
+                                wire:model="editAddress.address" 
+                                class="w-full" 
+                                type="text"
+                                placeholder="Dirección"  />
+                        </div>
+                    
+                        <div class="col-span-2">
+                            <x-input-white
+                                wire:model="editAddress.state" 
+                                class="w-full" 
+                                type="text"
+                                placeholder="Provincia"  />
+                        </div>
+                    
+                        <div class="col-span-2">
+                            <x-input-white
+                                wire:model="editAddress.city" 
+                                class="w-full" 
+                                type="text"
+                                placeholder="Ciudad"  />
+                        </div>
+                    
+                        <div class="col-span-2">
+                            <x-input-white
+                                wire:model="editAddress.reference" 
+                                class="w-full" 
+                                type="text"
+                                placeholder="Referencia"  />
+                        </div>
+                    </div>
+                
+                    <hr class="my-4">
+                
+                    <div x-data="{
+                        receiver: @entangle('editAddress.receiver'),
+                        receiver_info: @entangle('editAddress.receiver_info'),
+                    }" x-init="
+                        $watch('receiver' , value => {
+                            if(value == 1) {
+                                receiver_info.name = '{{ auth()->user()->name }}';
+                                receiver_info.last_name = '{{ auth()->user()->last_name }}';
+                                receiver_info.document_type = '{{ auth()->user()->document }}';
+                                receiver_info.document_number = '{{ auth()->user()->document_number }}';
+                                receiver_info.phone = '{{ auth()->user()->phone }}';
+                            } else {
+                                receiver_info.name = '';
+                                receiver_info.last_name = '';
+                                receiver_info.document_number = '';
+                                receiver_info.phone = '';
+                            }
+                        })
+                    ">
+                        <p class="font-semibold mb-2">
+                            ¿Quién recibirá el pedido?
+                        </p>
+                    
+                        <div class="flex space-x-2 mb-4">
+                            <label class="flex items-center">
+                                <input x-model="receiver" type="radio" value="1" class="mr-1" wire:model="editAddress.receiver" class="mr-2">
+                                Seré yo
+                            </label>
+                        
+                            <label class="flex items-center">
+                                <input x-model="receiver" type="radio" value="2" class="mr-1" wire:model="editAddress.receiver" class="mr-2">
+                                Otra persona
+                            </label>
+                        </div>
+                    
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <x-input-white
+                                    x-bind:disabled="receiver == 1"
+                                    x-model="receiver_info.name"
+                                    class="w-full" 
+                                    type="text"
+                                    placeholder="Nombres"  />
+                            </div>
+                        
+                            <div>
+                                <x-input-white
+                                    x-bind:disabled="receiver == 1"
+                                    x-model="receiver_info.last_name"
+                                    class="w-full"
+                                    type="text"
+                                    placeholder="Apellidos"  />
+                            </div>
+                        
+                            <div>
+                                <div class="flex space-x-2">
+                                    <x-select-white x-model="receiver_info.document_type" class="w-1/2">
+                                        @foreach (\App\Enums\TypeOfDocuments::cases() as $item)
+                                            <option value="{{ $item->value }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </x-select-white>
+                                
+                                    <x-input-white
+                                        x-model="receiver_info.document_number"
+                                        class="w-full" 
+                                        type="text"
+                                        placeholder="Número de documento"  />
+                                
+                                </div>
+                            </div>
+                        
+                            <div>
+                                <x-input-white
+                                    x-model="receiver_info.phone"
+                                    class="w-full" 
+                                    type="text"
+                                    placeholder="Teléfono"  />
+                            </div>
+                        
+                            <div>
+                                <button class="btn btn-outline-gray w-full"
+                                    wire:click="$set('editAddress.id', null)">
+                                    Cancelar
+                                </button>
+                            </div>
+                        
+                            <div>
+                                <button 
+                                    wire:click="update()"
+                                    class="btn btn-dark-green w-full">
+                                    Actualizar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 @else
                     @if ($addresses->count())
                         <ul class="grid grid-cols-3 gap-4">
                             @foreach ($addresses as $address)
-                                <li class="{{ $address->is_default ? 'bg-green-200' : 'bg-gray-100' }} rounded-lg shadow">
+                                <li class="{{ $address->is_default ? 'bg-green-200' : 'bg-gray-100' }} rounded-lg shadow"
+                                    wire:key="addresses-{{ $address->id }}">
                                     <div class="p-4 flex items-center">
                                         <div>
                                             <i class="fa-solid fa-location-dot text-gray-500"></i>
@@ -196,7 +342,7 @@
                                             <button wire:click="edit({{ $address->id }})">
                                                 <i class="fa-solid fa-pencil"></i>
                                             </button>
-                                            <button>
+                                            <button wire:click="deleteAddress({{ $address->id }})">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
                                         </div>

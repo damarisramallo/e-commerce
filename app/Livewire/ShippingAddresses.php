@@ -48,6 +48,15 @@ class ShippingAddresses extends Component
         $this->editAddress->edit($address);
     }
 
+    public function update()
+    {
+
+        $this->editAddress->update();
+
+        $this->addresses = Address::where('user_id', auth()->id())->get();
+
+    }
+
     public function setDefaultAddress($id)
     {
         $this->addresses->each(function($address) use ($id) {
@@ -55,6 +64,18 @@ class ShippingAddresses extends Component
                 'is_default' => $address->id == $id 
             ]);
         });
+    }
+
+    public function deleteAddress($id)
+    {
+
+        Address::find($id)->delete();
+
+        $this->addresses = Address::where('user_id', auth()->id())->get();
+
+        if ($this->addresses->where('is_default', true)->count() == 0 && $this->addresses->count() > 0) {
+            $this->addresses->first()->update(['is_default' => true]);
+        }
     }
 
     public function render()
