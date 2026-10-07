@@ -1,59 +1,150 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 E-commerce — Tienda online con panel de administración
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> Tienda online completa hecha con Laravel y Livewire: catálogo con variantes (talle/color), carrito persistente, direcciones de envío y un panel de administración para gestionar todo el contenido sin tocar código.
 
-## About Laravel
+![Captura de la tienda](docs/screenshots/home.png)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+🚧 **Estado:** en desarrollo. La demo en vivo estará disponible cuando el proyecto esté deployado.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+> Mientras tanto, podés correrlo en local siguiendo las [instrucciones de instalación](#-instalación-local).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+##  Funcionalidades
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Tienda (cliente)
+- Catálogo de productos organizado por familias, categorías y subcategorías.
+- Productos con variantes (talle, color) y selección de cantidad.
+- Carrito de compras persistente: se guarda en base de datos y mantiene el contador de ítems.
+- Resumen del carrito.
+- Registro e inicio de sesión de usuarios.
+- Módulo de direcciones: alta, listado, dirección por defecto, edición y eliminación.
+- Diseño responsive (mobile first).
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Panel de administración
+- CRUD de familias, categorías, subcategorías y productos.
+- Gestión de variantes y opciones de producto.
+- Gestión de portadas/banners con reordenamiento *drag & drop*.
+- Formularios dependientes (selects en cascada) con Livewire.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Próximamente
+- [ ] Integración de pasarela de pago
+- [ ] Historial de pedidos
+- [ ] Tests automatizados
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+##  Stack tecnológico
+
+| Capa | Tecnología |
+|------|------------|
+| Backend | Laravel 13, PHP |
+| Interactividad | Livewire, Alpine.js, JavaScript |
+| Estilos | Tailwind CSS |
+| Autenticación | Laravel Jetstream |
+| Base de datos | MySQL |
+| Carrito | codersfree/shoppingcart |
+| Extras | SortableJS + Axios (vía CDN) |
+| Entorno local | Laragon |
+
+---
+
+## 🚀 Instalación local
+
+### Requisitos
+- PHP 8.3+
+- Composer
+- Node.js 20+ y npm
+- MySQL
+
+### Pasos
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clonar el repositorio
+git clone https://github.com/damarisramallo/e-commerce.git
+cd e-commerce
 
-php artisan boost:install
+# 2. Instalar dependencias
+composer install
+npm install
+
+# 3. Configurar variables de entorno
+cp .env.example .env
+php artisan key:generate
+
+# 4. Crear la base de datos y configurar el .env (ver abajo)
+php artisan migrate --seed
+
+# 5. Enlace simbólico para imágenes
+php artisan storage:link
+
+# 6. Levantar el proyecto
+npm run dev
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Variables de entorno necesarias
 
-## Contributing
+```env
+APP_NAME="E-commerce"
+APP_URL=http://localhost:8000
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=ecommerce
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Code of Conduct
+> ⚠️ El archivo `.env` está en el `.gitignore`. Nunca subas credenciales al repositorio.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🧠 Decisiones técnicas
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Livewire en lugar de una SPA:** quería interactividad (selects en cascada, carrito, formularios dinámicos) sin duplicar la lógica en un frontend separado. Livewire me permitió mantener el estado y las validaciones en el servidor, y Alpine.js cubre las interacciones livianas del lado del cliente.
+- **Carrito persistente en base de datos:** el carrito se guarda en la DB para que el usuario no lo pierda al cerrar sesión o cambiar de dispositivo.
+- **Compatibilidad con Laravel 13:** el paquete del carrito solo declaraba soporte hasta `illuminate/support ^12.0`, así que lo integré con un override de repositorio tipo `package` en `composer.json`, incluyendo el bloque `extra.laravel` para que el ServiceProvider se auto-registre.
+- **Observers para lógica automática:** usé un `CoverObserver` para asignar el orden de las portadas al crearlas, evitando repetir esa lógica en los componentes.
+- **Reordenamiento drag & drop:** SortableJS + Axios por CDN, para no sumar complejidad de build a una funcionalidad puntual.
+- **Qué haría distinto con más tiempo:** agregar tests (feature tests para el carrito y el CRUD), mover la lógica de negocio más pesada a *Actions/Services* y sumar caché al catálogo.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# e-commerce
+## 📁 Estructura del proyecto
+
+```
+app/
+├── Livewire/        # Componentes (admin y tienda)
+├── Models/          # Modelos Eloquent
+├── Observers/       # Lógica automática sobre modelos
+resources/
+├── views/           # Vistas Blade y Livewire
+├── js/ · css/       # Assets (Alpine, Tailwind)
+database/
+├── migrations/
+└── seeders/
+```
+
+---
+
+## 📸 Capturas
+
+| Home | Producto | Carrito |
+|------|----------|---------|
+| ![Home](docs/screenshots/home.png) | ![Producto](docs/screenshots/product.png) | ![Carrito](docs/screenshots/cart.png) |
+
+| Panel admin | Direcciones |
+|-------------|-------------|
+| ![Admin](docs/screenshots/admin.png) | ![Direcciones](docs/screenshots/addresses.png) |
+
+---
+
+## 👩‍💻 Autora
+
+**Dámaris Ramallo** — Analista de sistemas y desarrolladora fullstack
+
+- 🌐 Portfolio: [damarisramallo.com](https://damarisramallo.com)
+- 💼 LinkedIn: [Dámaris Ramallo](www.linkedin.com/in/damarisramallo)
+- 🐙 GitHub: [@damarisramallo](https://github.com/damarisramallo)
