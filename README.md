@@ -146,5 +146,5 @@ database/
 **Dámaris Ramallo** — Analista de sistemas y desarrolladora fullstack
 
 - 🌐 Portfolio: [damarisramallo.com](https://damarisramallo.com)
-- 💼 LinkedIn: [Dámaris Ramallo](www.linkedin.com/in/damarisramallo)
+- 💼 LinkedIn: [linkedin.com/in/damarisramallo](https://www.linkedin.com/in/damarisramallo)
 - 🐙 GitHub: [@damarisramallo](https://github.com/damarisramallo)
